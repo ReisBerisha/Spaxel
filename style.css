@@ -1,75 +1,48 @@
 body {
-  font-family: Arial, sans-serif;
-  background: #f0f0f0;
-  padding: 40px;
+  font-family: sans-serif;
+  background: #e0f7fa;
   display: flex;
   justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .app {
   background: white;
   padding: 30px;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   width: 100%;
   max-width: 400px;
-}
-
-h1 {
   text-align: center;
-  margin-bottom: 20px;
 }
 
-form {
-  display: flex;
-  gap: 10px;
-}
-
-input[type="text"] {
-  flex: 1;
+input {
   padding: 10px;
-  border: 1px solid #ccc;
+  width: 70%;
+  margin-right: 10px;
   border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
 button {
-  padding: 10px 15px;
+  padding: 10px;
   border: none;
-  background: #28a745;
+  background: #2196f3;
   color: white;
   border-radius: 5px;
   cursor: pointer;
 }
 
 button:hover {
-  background: #218838;
+  background: #1976d2;
 }
 
-ul {
-  list-style: none;
-  padding: 0;
-  margin-top: 20px;
+.hidden {
+  display: none;
 }
 
-li {
-  background: #f9f9f9;
-  padding: 10px;
-  margin-bottom: 8px;
-  border-radius: 5px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-li.completed {
-  text-decoration: line-through;
-  color: #888;
-}
-
-li button {
-  background: transparent;
-  border: none;
-  color: red;
-   cursor: pointer;
-  font-size: 16px;
+#weather-result img {
+  width: 80px;
+  height: 80px;
 }

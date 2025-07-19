@@ -1,51 +1,44 @@
-const form = document.getElementById('todo-form');
-const input = document.getElementById('todo-input');
-const list = document.getElementById('todo-list');
+const form = document.getElementById('weather-form');
+const input = document.getElementById('city-input');
+const result = document.getElementById('weather-result');
+const cityName = document.getElementById('city-name');
+const description = document.getElementById('description');
+const temperature = document.getElementById('temperature');
+const icon = document.getElementById('weather-icon');
 
+// ✅ New API key
+const API_KEY = 'a307cf447f5cc3dc11a9f01c4566b45d';
 
-window.addEventListener('DOMContentLoaded', () => {
-  const saved = JSON.parse(localStorage.getItem('todos')) || [];
-  saved.forEach(todo => addTodo(todo.text, todo.completed));
-});
-
-form.addEventListener('submit', (e) => {
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const text = input.value.trim();
-  if (text !== '') {
-    addTodo(text);
-    input.value = '';
+  const city = input.value.trim();
+
+  if (!city) {
+    alert("Please enter a city name.");
+    return;
   }
+
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric`;
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (data.cod !== 200) {
+      throw new Error(data.message || "City not found");
+    }
+
+    cityName.textContent = data.name;
+    description.textContent = data.weather[0].description;
+    temperature.textContent = `${data.main.temp}°C`;
+    icon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+    icon.alt = data.weather[0].description;
+
+    result.classList.remove('hidden');
+  } catch (err) {
+    alert("Error: " + err.message);
+    result.classList.add('hidden');
+  }
+
+  input.value = '';
 });
-
-function addTodo(text, completed = false) {
-  const li = document.createElement('li');
-  li.textContent = text;
-  if (completed) li.classList.add('completed');
-
-  li.addEventListener('click', () => {
-    li.classList.toggle('completed');
-    saveTodos();
-  });
-
-  const delBtn = document.createElement('button');
-  delBtn.textContent = '✖';
-  delBtn.addEventListener('click', () => {
-    li.remove();
-    saveTodos();
-  });
-
-  li.appendChild(delBtn);
-  list.appendChild(li);
-  saveTodos();
-}
-
-function saveTodos() {
-  const todos = [];
-  list.querySelectorAll('li').forEach(li => {
-    todos.push({
-      text: li.firstChild.textContent,
-      completed: li.classList.contains('completed')
-    });
-  });
-  localStorage.setItem('todos', JSON.stringify(todos));
-}
